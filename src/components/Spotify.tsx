@@ -21,7 +21,7 @@ const Spotify: React.FC<SpotifyProps> = observer(({ spotifyStore }) => {
                     <Routes>
                         <Route path='/' element={<Home spotifyStore={spotifyStore} />} />
                         <Route path='/profile' element={<Profile spotifyStore={spotifyStore} />} />
-                        <Route path='/search' element={<Search />} />
+                        <Route path='/search' element={<Search spotifyStore={spotifyStore} />} />
                     </Routes>
                     <Footer />
                 </Router>

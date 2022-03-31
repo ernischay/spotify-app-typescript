@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { IPlaylist } from '../models/IPlaylist'
 import { IProfile } from '../models/IProfile'
+import { IResult } from '../models/IResult'
 import { ISong } from '../models/ISong'
 import { SpotifyService } from '../services/SpotifyService'
 
@@ -9,6 +10,7 @@ export class SpotifyStore {
     profile: IProfile | null = null
     playlist: IPlaylist[] | null = null
     songs: ISong[] | null = null
+    results: IResult | null = null
 
     constructor(private readonly spotifyService: SpotifyService) {
         makeAutoObservable(this)
@@ -37,5 +39,13 @@ export class SpotifyStore {
     setPlaylistAndSongs(playlist: IPlaylist[], songs: ISong[]) {
         this.playlist = playlist
         this.songs = songs
+    }
+
+    getSearchResults(token: string, params: URLSearchParams) {
+        return this.spotifyService.getSearchResults(token, params)
+    }
+
+    setSearchResults(results: IResult) {
+        this.results = results
     }
 }

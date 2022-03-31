@@ -3,6 +3,7 @@ import axios from 'axios'
 import { IProfile } from '../models/IProfile'
 import { IPlaylist } from '../models/IPlaylist'
 import { ISong } from '../models/ISong'
+import { IResult } from '../models/IResult'
 
 const spotify = axios.create({
     baseURL: API_URL,
@@ -72,8 +73,60 @@ export class SpotifyService {
         }
     }
 
-    // async getInfo() {
-    //     const [user, repos] = await Promise.all([github.get('/users/ernischay'), github.get('/users/ernischay/repos')])
-    //     return { user: user.data, repos: repos.data }
-    // }
+    async getSearchResults(token: string, params: URLSearchParams) {
+        try {
+            const searchResponse = await spotify.get(`/search?${params}`, {
+                headers: { Authorization: `'Bearer ${token}'` },
+            })
+
+            let albums: ISong[] = []
+            let artists: ISong[] = []
+            let tracks: ISong[] = []
+            let albumItem: ISong
+            let artistItem: ISong
+            let trackItem: ISong
+
+            let result: IResult
+
+            if (searchResponse.data.albums) {
+                albums = searchResponse.data.albums.items.map((album: { name: string; artists: any; images: any; uri: string }) => {
+                    albumItem = {
+                        name: album.name,
+                        artistName: album.artists[0].name,
+                        image_url: album.images[0].url,
+                        uri: album.uri,
+                    }
+                    return albumItem
+                })
+            }
+
+            if (searchResponse.data.artists) {
+                artists = searchResponse.data.artists.items.map((artist: { name: string; genres: any; images: any; uri: string }) => {
+                    artistItem = {
+                        name: artist.name,
+                        artistName: artist.genres[0],
+                        image_url: artist.images[0].url,
+                        uri: artist.uri,
+                    }
+                    return artistItem
+                })
+            }
+
+            if (searchResponse.data.tracks) {
+                tracks = searchResponse.data.tracks.items.map((track: { name: string; album: { name: string; images: any; uri: string } }) => {
+                    trackItem = {
+                        name: track.name,
+                        artistName: track.album.name,
+                        image_url: track.album.images[0].url,
+                        uri: track.album.uri,
+                    }
+                    return trackItem
+                })
+            }
+            result = { albums, artists, tracks }
+            return result
+        } catch (e) {
+            console.error(e)
+        }
+    }
 }
