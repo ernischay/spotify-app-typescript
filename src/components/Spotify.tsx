@@ -17,13 +17,13 @@ const Spotify: React.FC<SpotifyProps> = observer(({ spotifyStore }) => {
         <div className='flex flex-col bg-[#121212] overflow-hidden h-screen md:flex-row'>
             {spotifyStore.token ? (
                 <Router>
-                    <Sidebar />
+                    <Sidebar spotifyStore={spotifyStore} />
                     <Routes>
                         <Route path='/' element={<Home spotifyStore={spotifyStore} />} />
                         <Route path='/profile' element={<Profile spotifyStore={spotifyStore} />} />
                         <Route path='/search' element={<Search spotifyStore={spotifyStore} />} />
                     </Routes>
-                    <Footer />
+                    <Footer spotifyStore={spotifyStore} />
                 </Router>
             ) : (
                 <Login />

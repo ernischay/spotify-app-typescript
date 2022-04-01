@@ -1,15 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SpotifyPlayer from 'react-spotify-web-playback'
+import { SpotifyStore } from '../stores/SpotifyStore'
 
-interface FooterProps {}
+interface FooterProps {
+    spotifyStore: SpotifyStore
+}
 
-const Footer: React.FC<FooterProps> = (props: FooterProps) => {
+const Footer: React.FC<FooterProps> = ({ spotifyStore }) => {
     const [play, setPlay] = useState(false)
-    const token = 'asdas'
+
+    const trackUri = spotifyStore.trackUri
+
+    useEffect(() => {
+        setPlay(true)
+    }, [trackUri])
 
     return (
         <div className='bottom-0 fixed w-full'>
-            <SpotifyPlayer token={token} showSaveIcon play={play} uris={[]} />
+            <SpotifyPlayer
+                token={spotifyStore.token || ''}
+                showSaveIcon
+                callback={(state) => {
+                    if (!state.isPlaying) setPlay(false)
+                }}
+                play={play}
+                uris={trackUri ? [trackUri] : []}
+            />
         </div>
     )
 }

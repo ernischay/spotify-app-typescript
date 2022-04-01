@@ -11,6 +11,7 @@ export class SpotifyStore {
     playlist: IPlaylist[] | null = null
     songs: ISong[] | null = null
     results: IResult | null = null
+    trackUri: string | null = null
 
     constructor(private readonly spotifyService: SpotifyService) {
         makeAutoObservable(this)
@@ -20,7 +21,7 @@ export class SpotifyStore {
         return this.spotifyService.getTokenFromUrl()
     }
 
-    setToken(token: string) {
+    setToken(token: string | null) {
         this.token = token
     }
 
@@ -45,7 +46,11 @@ export class SpotifyStore {
         return this.spotifyService.getSearchResults(token, params)
     }
 
-    setSearchResults(results: IResult) {
+    setSearchResults(results: IResult | null) {
         this.results = results
+    }
+
+    setTrackUri(uri: string) {
+        this.trackUri = uri
     }
 }
