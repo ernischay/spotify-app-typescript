@@ -22,10 +22,10 @@ const Profile: React.FC<ProfileProps> = observer(({ spotifyStore }) => {
 
     const profile = spotifyStore.profile
 
-    if (profile) {
-        return (
-            <div className='flex flex-1 md:flex-[0.8] flex-col text-white overflow-y-auto mb-[48px] p-[40px]'>
-                <h1 className='text-[2em] font-medium text-white mb-[20px]'>Profile</h1>
+    return (
+        <div className='flex flex-1 md:flex-[0.8] flex-col text-white overflow-y-auto mb-[48px] p-[40px]'>
+            <h1 className='text-[2em] font-medium text-white mb-[20px]'>Profile</h1>
+            {profile && (
                 <div className='flex flex-wrap gap-x-8'>
                     <img className='h-48 md:h-[auto] max-w-[335px] object-contain rounded-[4px]' src={profile.image_url} alt='profile' />
                     <div className='py-[25px]'>
@@ -36,11 +36,9 @@ const Profile: React.FC<ProfileProps> = observer(({ spotifyStore }) => {
                         </a>
                     </div>
                 </div>
-            </div>
-        )
-    } else {
-        return <></>
-    }
+            )}
+        </div>
+    )
 })
 
 export default Profile
