@@ -19,7 +19,7 @@ const Home: React.FC<HomeProps> = observer(({ spotifyStore }) => {
             }
         }
         fetchPlaylistAndSongs()
-    }, [])
+    }, [spotifyStore])
 
     return (
         <div className='flex flex-1 md:flex-[0.8] flex-col text-white overflow-y-auto mb-[48px] p-[40px]'>
