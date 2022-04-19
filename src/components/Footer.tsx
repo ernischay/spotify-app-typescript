@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import SpotifyPlayer from 'react-spotify-web-playback'
 import { SpotifyStore } from '../stores/SpotifyStore'
+import { observer } from 'mobx-react'
 
 interface FooterProps {
     spotifyStore: SpotifyStore
 }
 
-const Footer: React.FC<FooterProps> = ({ spotifyStore }) => {
+const Footer: React.FC<FooterProps> = observer(({ spotifyStore }) => {
     const [play, setPlay] = useState(false)
 
     const trackUri = spotifyStore.trackUri
@@ -28,6 +29,6 @@ const Footer: React.FC<FooterProps> = ({ spotifyStore }) => {
             />
         </div>
     )
-}
+})
 
 export default Footer
