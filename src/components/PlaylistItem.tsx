@@ -1,12 +1,11 @@
-import { IPlaylist } from '../models/IPlaylist'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { IPlaylist } from '../models/ISpotify'
+import { spotifyStore } from '../stores/SpotifyStore'
 
 interface PlaylistItemProps {
     playlistItem: IPlaylist
-    spotifyStore: SpotifyStore
 }
 
-const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlistItem, spotifyStore }) => {
+const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlistItem}) => {
     const handlePlay = () => {
         spotifyStore.setTrackUri(playlistItem.uri)
     }

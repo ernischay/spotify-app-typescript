@@ -1,25 +1,19 @@
 import { observer } from 'mobx-react'
-import { IResult } from '../models/IResult'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { IResult, ISong } from '../models/ISpotify'
 import SongItem from './SongItem'
 
 interface SearchResultProps {
     results: IResult | null
-    spotifyStore: SpotifyStore
 }
 
-const SearchResult: React.FC<SearchResultProps> = observer(({ results, spotifyStore }) => {
-    if (results) {
+const SearchResult: React.FC<SearchResultProps> = observer(({ results }) => {
+    let songs: ISong[] = []
+    if (!!results) {
+        songs.push(...results.albums, ...results.artists, ...results.tracks)
         return (
             <div className='flex flex-wrap my-[20px]'>
-                {results.albums.map((item, index) => {
-                    return <SongItem key={index} songItem={item} spotifyStore={spotifyStore} />
-                })}
-                {results.artists.map((item, index) => {
-                    return <SongItem key={index} songItem={item} spotifyStore={spotifyStore} />
-                })}
-                {results.tracks.map((item, index) => {
-                    return <SongItem key={index} songItem={item} spotifyStore={spotifyStore} />
+                {songs.map((item, index) => {
+                    return <SongItem key={index} songItem={item} />
                 })}
             </div>
         )

@@ -1,9 +1,7 @@
 import logo from '../assets/logo.png'
 import { loginUrl } from '../utils/urls'
 
-interface LoginProps {}
-
-const Login: React.FC<LoginProps> = (props: LoginProps) => {
+const Login: React.FC = () => {
     return (
         <div className='m-auto flex flex-col justify-evenly items-center content-around w-full h-screen'>
             <img className='h-[100px] object-contain p-[10px]' src={logo} alt='spotify' />

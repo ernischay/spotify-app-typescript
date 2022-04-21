@@ -1,11 +1,8 @@
 import { makeAutoObservable } from 'mobx'
-import { IPlaylist } from '../models/IPlaylist'
-import { IProfile } from '../models/IProfile'
-import { IResult } from '../models/IResult'
-import { ISong } from '../models/ISong'
-import { SpotifyService } from '../services/SpotifyService'
+import { IPlaylist, IProfile, IResult, ISong } from '../models/ISpotify'
+import { getTokenFromUrl, getUserDetails, getPlaylistAndSongs, getSearchResults } from '../services/SpotifyService'
 
-export class SpotifyStore {
+class SpotifyStore {
     token: string | null = null
     profile: IProfile | null = null
     playlist: IPlaylist[] | null = null
@@ -13,12 +10,12 @@ export class SpotifyStore {
     results: IResult | null = null
     trackUri: string | null = null
 
-    constructor(private readonly spotifyService: SpotifyService) {
+    constructor() {
         makeAutoObservable(this)
     }
 
     getToken() {
-        return this.spotifyService.getTokenFromUrl()
+        return getTokenFromUrl()
     }
 
     setToken(token: string | null) {
@@ -26,7 +23,7 @@ export class SpotifyStore {
     }
 
     getUserDetails(token: string) {
-        return this.spotifyService.getUserDetails(token)
+        return getUserDetails(token)
     }
 
     setProfile(profile: IProfile) {
@@ -34,7 +31,7 @@ export class SpotifyStore {
     }
 
     getPlaylistAndSongs(token: string) {
-        return this.spotifyService.getPlaylistAndSongs(token)
+        return getPlaylistAndSongs(token)
     }
 
     setPlaylistAndSongs(playlist: IPlaylist[], songs: ISong[]) {
@@ -43,7 +40,7 @@ export class SpotifyStore {
     }
 
     getSearchResults(token: string, params: URLSearchParams) {
-        return this.spotifyService.getSearchResults(token, params)
+        return getSearchResults(token, params)
     }
 
     setSearchResults(results: IResult | null) {
@@ -54,3 +51,5 @@ export class SpotifyStore {
         this.trackUri = uri
     }
 }
+
+export const spotifyStore = new SpotifyStore()

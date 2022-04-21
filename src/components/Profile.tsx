@@ -1,24 +1,22 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { spotifyStore } from '../stores/SpotifyStore'
 import { ReactComponent as LinkIcon } from '../assets/linkIcon.svg'
 
-interface ProfileProps {
-    spotifyStore: SpotifyStore
-}
+const Profile: React.FC = observer(() => {
 
-const Profile: React.FC<ProfileProps> = observer(({ spotifyStore }) => {
-    useEffect(() => {
-        const fetchUserDetails = async () => {
-            if (spotifyStore.token) {
-                const profile = await spotifyStore.getUserDetails(spotifyStore.token)
-                if (typeof profile != 'undefined') {
-                    spotifyStore.setProfile(profile)
-                }
+    const fetchUserDetails = async () => {
+        if (spotifyStore.token) {
+            const profile = await spotifyStore.getUserDetails(spotifyStore.token)
+            if (typeof profile != 'undefined') {
+                spotifyStore.setProfile(profile)
             }
         }
+    }
+
+    useEffect(() => {
         fetchUserDetails()
-    }, [spotifyStore])
+    }, [])
 
     const profile = spotifyStore.profile
 

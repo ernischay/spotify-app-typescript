@@ -1,11 +1,6 @@
-import { SpotifyStore } from './stores/SpotifyStore'
+import { spotifyStore } from './stores/SpotifyStore'
 import { useEffect } from 'react'
-import { SpotifyService } from './services/SpotifyService'
 import Spotify from './components/Spotify'
-
-const spotifyService = new SpotifyService()
-
-const spotifyStore = new SpotifyStore(spotifyService)
 
 const App: React.FC = () => {
     useEffect(() => {
@@ -16,7 +11,7 @@ const App: React.FC = () => {
         }
     }, [])
 
-    return <Spotify spotifyStore={spotifyStore} />
+    return <Spotify/>
 }
 
 export default App

@@ -9,13 +9,9 @@ import { ReactComponent as DownArrowIcon } from '../assets/downArrowIcon.svg'
 import { ReactComponent as CrossIcon } from '../assets/crossIcon.svg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { spotifyStore } from '../stores/SpotifyStore'
 
-interface SidebarProps {
-    spotifyStore: SpotifyStore
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ spotifyStore }) => {
+const Sidebar: React.FC = () => {
     const [width, setWidth] = useState<number>(window.innerWidth)
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const navigate = useNavigate()

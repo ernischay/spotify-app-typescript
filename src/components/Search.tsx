@@ -1,15 +1,11 @@
 import { observer } from 'mobx-react'
 import { useEffect, useState } from 'react'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { spotifyStore } from '../stores/SpotifyStore'
 import { ReactComponent as SearchIcon } from '../assets/searchIcon.svg'
 import { ReactComponent as CrossIcon } from '../assets/crossIcon.svg'
 import SearchResult from './SearchResult'
 
-interface SearchProps {
-    spotifyStore: SpotifyStore
-}
-
-const Search: React.FC<SearchProps> = observer(({ spotifyStore }) => {
+const Search: React.FC = observer(() => {
     const [text, setText] = useState<string>('')
     const [option, setOption] = useState<string>('artist,album,track')
 
@@ -21,22 +17,23 @@ const Search: React.FC<SearchProps> = observer(({ spotifyStore }) => {
         }
     }
 
-    useEffect(() => {
-        const params = new URLSearchParams(`q=${text}&type=${option}&limit=4`)
-        const fetchSearchResults = async () => {
-            if (spotifyStore.token) {
-                const results = await spotifyStore.getSearchResults(spotifyStore.token, params)
-                if (typeof results != 'undefined') {
-                    spotifyStore.setSearchResults(results)
-                }
+    const fetchSearchResults = async (params: URLSearchParams) => {
+        if (spotifyStore.token) {
+            const results = await spotifyStore.getSearchResults(spotifyStore.token, params)
+            if (typeof results != 'undefined') {
+                spotifyStore.setSearchResults(results)
             }
         }
+    }
+
+    useEffect(() => {
+        const params = new URLSearchParams(`q=${text}&type=${option}&limit=4`)
         if (text.length > 0) {
-            fetchSearchResults()
+            fetchSearchResults(params)
         } else {
             spotifyStore.setSearchResults(null)
         }
-    }, [text, option, spotifyStore])
+    }, [text, option])
 
     const handleOption = (e: React.ChangeEvent<any>) => {
         setOption(e.currentTarget.value)
@@ -83,7 +80,7 @@ const Search: React.FC<SearchProps> = observer(({ spotifyStore }) => {
                     </li>
                 </ul>
             )}
-            {text && spotifyStore.results && <SearchResult results={spotifyStore.results} spotifyStore={spotifyStore} />}
+            {text && spotifyStore.results && <SearchResult results={spotifyStore.results}/>}
         </div>
     )
 })

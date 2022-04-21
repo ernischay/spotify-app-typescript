@@ -5,25 +5,21 @@ import Profile from './Profile'
 import Sidebar from './Sidebar'
 import Footer from './Footer'
 import Login from './Login'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { spotifyStore } from '../stores/SpotifyStore'
 import { observer } from 'mobx-react'
 
-interface SpotifyProps {
-    spotifyStore: SpotifyStore
-}
-
-const Spotify: React.FC<SpotifyProps> = observer(({ spotifyStore }) => {
+const Spotify: React.FC = observer(() => {
     return (
         <div className='flex flex-col bg-[#121212] overflow-hidden h-screen md:flex-row'>
             {spotifyStore.token ? (
                 <Router>
-                    <Sidebar spotifyStore={spotifyStore} />
+                    <Sidebar/>
                     <Routes>
-                        <Route path='/' element={<Home spotifyStore={spotifyStore} />} />
-                        <Route path='/profile' element={<Profile spotifyStore={spotifyStore} />} />
-                        <Route path='/search' element={<Search spotifyStore={spotifyStore} />} />
+                        <Route path='/' element={<Home/>} />
+                        <Route path='/profile' element={<Profile/>} />
+                        <Route path='/search' element={<Search/>} />
                     </Routes>
-                    <Footer spotifyStore={spotifyStore} />
+                    <Footer/>
                 </Router>
             ) : (
                 <Login />

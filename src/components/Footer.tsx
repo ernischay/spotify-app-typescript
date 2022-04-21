@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react'
 import SpotifyPlayer from 'react-spotify-web-playback'
-import { SpotifyStore } from '../stores/SpotifyStore'
+import { spotifyStore } from '../stores/SpotifyStore'
 import { observer } from 'mobx-react'
 
-interface FooterProps {
-    spotifyStore: SpotifyStore
-}
-
-const Footer: React.FC<FooterProps> = observer(({ spotifyStore }) => {
+const Footer: React.FC = observer(() => {
     const [play, setPlay] = useState(false)
 
     const trackUri = spotifyStore.trackUri
